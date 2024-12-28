@@ -33,7 +33,6 @@ RUN adduser --disabled-password --gecos '' $USER && \
     echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers && \
     usermod -aG chrome-remote-desktop $USER
 
-USER $USER
 WORKDIR /home/$USER
 
 RUN mkdir -p .config/chrome-remote-desktop && \
@@ -52,7 +51,7 @@ CMD \
     HOST_HASH=$(echo -n $HOSTNAME | md5sum | cut -c -32) && \
     FILENAME=.config/chrome-remote-desktop/host#${HOST_HASH}.json && echo $FILENAME && \
     cp .config/chrome-remote-desktop/host#*.json $FILENAME && \
-    sudo service chrome-remote-desktop stop && \
-    sudo service chrome-remote-desktop start && \
+    service chrome-remote-desktop stop && \
+    service chrome-remote-desktop start && \
     echo "Chrome Remote Desktop is running with HOSTNAME: $HOSTNAME" && \
     sleep infinity & wait
